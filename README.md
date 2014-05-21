@@ -1,7 +1,7 @@
 springbatch-experiments
 =======================
-SpringBatchPartitionerExperiment
---------------------------------
+SpringBatchPartitionerExperiment (Master - Slave)
+-------------------------------------------------
 Execution Steps:
 
 1. Start Derby DB (startNetworkServer -noSecurityManager)
