@@ -14,7 +14,7 @@ public class PersonDaoImpl implements PersonDao {
 
 	private List<Person> createFakePeople() {
 		List<Person> people = new ArrayList<Person>();
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 1000000; i++) {
 			people
 					.add(createPerson(i));
 		}

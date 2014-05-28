@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
+
+	<batch:job id="StopJobGracefullyDemo" xmlns="http://www.springframework.org/schema/batch">
+		<batch:step id="readWriteProducts">
+			<batch:tasklet>
+				<batch:chunk reader="reader" writer="writer"
+					commit-interval="3" />
+				<batch:listeners>
+					<batch:listener ref="stopListener" />
+				</batch:listeners>
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+	<bean id="reader" class="org.springframework.batch.item.jms.JmsItemReader">
+		<property name="jmsTemplate" ref="inputJmsTemplate" />
+	</bean>
+
+	<bean id="writer" class="org.springframework.batch.item.jms.JmsItemWriter">
+		<property name="jmsTemplate" ref="outputJmsTemplate" />
+	</bean>
+
+	<bean id="inputJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="defaultDestinationName" value="input.queue" />
+		<property name="receiveTimeout" value="500" />
+		<property name="sessionTransacted" value="true" />
+	</bean>
+
+	<bean id="outputJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="defaultDestinationName" value="output.queue" />
+		<property name="receiveTimeout" value="500" />
+		<property name="sessionTransacted" value="true" />
+	</bean>
+
+	<bean id="stopListener" class="org.punnoose.springbatchdemo.listener.StopListener">
+		<property name="maxReadCount" value="10" />
+	</bean>
+</beans>

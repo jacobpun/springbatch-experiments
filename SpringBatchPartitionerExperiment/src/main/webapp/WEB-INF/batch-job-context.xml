@@ -27,7 +27,7 @@
 		<bean id="partitionHandler"
 			class="org.springframework.batch.integration.partition.MessageChannelPartitionHandler">
 			<property name="stepName" value="partitionReadWriteProducts" />
-			<property name="gridSize" value="3" />
+			<property name="gridSize" value="100" />
 			<property name="messagingOperations">
 				<bean class="org.springframework.integration.core.MessagingTemplate">
 					<property name="defaultChannel" ref="outboundRequests" />
@@ -53,7 +53,7 @@
 
 	<beans profile="slave">
 
-		<int-jms:inbound-gateway request-channel="inboundRequests" concurrent-consumers="3" 
+		<int-jms:inbound-gateway request-channel="inboundRequests" concurrent-consumers="1" 
 			request-destination-name="output.queue" connection-factory="connectionFactory" />
 
 		<int:channel id="inboundRequests" />
@@ -73,7 +73,7 @@
 		<batch:step id="partitionReadWriteProducts">
 			<batch:tasklet>
 				<batch:chunk reader="reader" writer="writer" processor="processor"
-					commit-interval="3" />
+					commit-interval="100" />
 			</batch:tasklet>
 		</batch:step>
 
