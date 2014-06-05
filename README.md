@@ -10,6 +10,6 @@ Execution Steps:
 4. Start Slave Profile in another port (mvn jetty:run with VM Arguments -Dspring.profiles.active="slave" -Djetty.port=8081)
 5. Execute the job via SpringBatch admin
 
-StoJobGracefully (Master - Slave)
--------------------------------------------------
+StoJobGracefully
+----------------
 Shows how to stop jobs gracefully
